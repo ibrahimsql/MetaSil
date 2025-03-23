@@ -41,7 +41,7 @@ MetaSil, telefonla çekilen fotoğraf, video ve ses dosyalarından tüm meta ver
    ```
 4. Çalıştırma izni verin:
    ```
-   chmod +x MetaSil.py
+   chmod +x metasilici.py
    ```
 
 ### Kullanım:
