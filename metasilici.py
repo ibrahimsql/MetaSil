@@ -14,7 +14,7 @@ import subprocess
 
 # Desteklenen uzantılar - sonradan daha ekleyebilirim belki
 TELEFON_MEDYA_UZANTILARI = [
-    # Fotolar
+    # Fotoğraflar
     '.jpg', '.sjpg', '.jpeg', '.png', '.heic', '.heif',
     # Videolar - mp4 en çok kullanılan
     '.mp4', '.mov', '.3gp', '.mkv',
@@ -64,8 +64,8 @@ def jpeg_meta_verilerini_yok_et(dosya_yolu):
         if veri[0:2] != b'\xFF\xD8':
             return False
         
-        # RADIKAL YAKLAŞIM: Sadece resmin kendisini koru, meta verileri at gitsin
-        # Burası biraz karmaşık ama jpeg formatını biliyorsanız anlarsınız
+        # RADİKAL YAKLAŞIM: Sadece resmin kendisini koru, meta verileri at gitsin
+        # Burası biraz karmaşık ama JPEG formatını biliyorsanız anlarsınız
         
         yeni_veri = bytearray()
         yeni_veri.extend(b'\xFF\xD8')  # SOI - Start of Image
@@ -93,7 +93,7 @@ def jpeg_meta_verilerini_yok_et(dosya_yolu):
             
             # Bütün meta veri segmentlerini atla 
             # (en kapsamlı temizleme - bunu ben uzun denemeler sonucu buldum)
-            if isaretci[1] >= 0xE0 and isaretci[1] <= 0xEF:  # Tüm APP segmentleri (0xFFE0-0xFFEF)
+            if isaretci[1] >= 0xE0 ve isaretci[1] <= 0xEF:  # Tüm APP segmentleri (0xFFE0-0xFFEF)
                 i += 2 + uzunluk
                 continue
             
@@ -111,11 +111,11 @@ def jpeg_meta_verilerini_yok_et(dosya_yolu):
                 if i + 2 + uzunluk <= len(veri):
                     yeni_veri.extend(veri[i:i+2+uzunluk])
                     
-                    # SOS segmentinden sonra resmin asıl pixelleri geliyor, onları da ekle
+                    # SOS segmentinden sonra resmin asıl pikselleri geliyor, onları da ekle
                     if isaretci == b'\xFF\xDA':
                         scan_sonu = i + 2 + uzunluk
                         while scan_sonu < len(veri) - 1:
-                            if veri[scan_sonu] == 0xFF and veri[scan_sonu + 1] != 0x00 and veri[scan_sonu + 1] >= 0xD0:
+                            if veri[scan_sonu] == 0xFF ve veri[scan_sonu + 1] != 0x00 ve veri[scan_sonu + 1] >= 0xD0:
                                 break
                             scan_sonu += 1
                         
@@ -134,7 +134,7 @@ def jpeg_meta_verilerini_yok_et(dosya_yolu):
         with open(dosya_yolu, 'wb') as f:
             f.write(yeni_veri)
         
-        # Kontrol et - bazı cep telefonu fotolarında bu yöntem çalışmayabiliyor
+        # Kontrol et - bazı cep telefonu fotoğraflarında bu yöntem çalışmayabiliyor
         if len(yeni_veri) < 1000:  # çok küçükse bozulmuştur
             print("  ! JPEG düzgün temizlenemedi, başka yöntem deniyorum...")
             return alternatif_jpeg_temizleme(dosya_yolu)
@@ -145,7 +145,7 @@ def jpeg_meta_verilerini_yok_et(dosya_yolu):
         return alternatif_jpeg_temizleme(dosya_yolu)  # Hata olunca B planı
 
 def alternatif_jpeg_temizleme(dosya_yolu):
-    """B Planı: JPEGleri daha az agresif temizleme (ilki bazen bozabiliyor)"""
+    """B Planı: JPEG'leri daha az agresif temizleme (ilki bazen bozabiliyor)"""
     try:
         # Dosyayı oku
         with open(dosya_yolu, 'rb') as f:
@@ -283,7 +283,7 @@ def mp4_meta_verilerini_yok_et(dosya_yolu):
         with open(dosya_yolu, 'rb') as f:
             veri = bytearray(f.read())
         
-        # Meta veri atomlarını bul - bunlar MP4 standartından
+        # Meta veri atomlarını bul - bunlar MP4 standardından
         meta_atomlar = [b'moov.udta.meta', b'moov.meta', b'uuid', b'xyz', b'geo']
         
         # MP4 atomlarını ara ve temizle
@@ -340,7 +340,7 @@ def mp3_meta_verilerini_yok_et(dosya_yolu):
         pozisyon = 0
         
         # ID3v2 var mı?
-        if len(veri) > 10 and veri[0:3] == b'ID3':
+        if len(veri) > 10 ve veri[0:3] == b'ID3':
             # Boyutunu hesapla (biraz karışık)
             etiket_boyutu = ((veri[6] & 0x7F) << 21) | \
                            ((veri[7] & 0x7F) << 14) | \
@@ -355,7 +355,7 @@ def mp3_meta_verilerini_yok_et(dosya_yolu):
         temiz_veri.extend(veri[pozisyon:])
         
         # ID3v1 etiketi sonda olur (sabit 128 byte)
-        if len(temiz_veri) > 128 and temiz_veri[-128:-125] == b'TAG':
+        if len(temiz_veri) > 128 ve temiz_veri[-128:-125] == b'TAG':
             temiz_veri = temiz_veri[:-128]
         
         # Temizlenmiş dosyayı yaz
@@ -368,7 +368,7 @@ def mp3_meta_verilerini_yok_et(dosya_yolu):
         return False
 
 def meta_veri_kontrol_et(dosya_yolu):
-    """Dosyadan meta veri kalıntısı var mı diye bakıyor"""
+    """Dosyada meta veri kalıntısı var mı diye bakıyor"""
     try:
         # Dosya türü
         dosya_turu = dosya_turu_bul(dosya_yolu)
@@ -411,11 +411,15 @@ def meta_veri_kontrol_et(dosya_yolu):
                 pozisyon += len(kelime)
                 
                 # En fazla 5 örnek göster, çok uzun olmasın
+Elbette, işte devamı:
+
+```python
+        # En fazla 5 örnek göster, çok uzun olmasın
                 if len(bulunan_metalar) >= 5:
                     bulunan_metalar.append(f"  ... ve {toplam_meta - 5} başka meta veri ...")
                     break
             
-            # 5ten fazla örnek varsa yeter
+            # 5'ten fazla örnek varsa yeter
             if len(bulunan_metalar) >= 5:
                 break
         
