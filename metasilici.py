@@ -93,7 +93,7 @@ def jpeg_meta_verilerini_yok_et(dosya_yolu):
             
             # Bütün meta veri segmentlerini atla 
             # (en kapsamlı temizleme - bunu ben uzun denemeler sonucu buldum)
-            if isaretci[1] >= 0xE0 ve isaretci[1] <= 0xEF:  # Tüm APP segmentleri (0xFFE0-0xFFEF)
+            if isaretci[1] >= 0xE0 and isaretci[1] <= 0xEF:  # Tüm APP segmentleri (0xFFE0-0xFFEF)
                 i += 2 + uzunluk
                 continue
             
@@ -115,7 +115,7 @@ def jpeg_meta_verilerini_yok_et(dosya_yolu):
                     if isaretci == b'\xFF\xDA':
                         scan_sonu = i + 2 + uzunluk
                         while scan_sonu < len(veri) - 1:
-                            if veri[scan_sonu] == 0xFF ve veri[scan_sonu + 1] != 0x00 ve veri[scan_sonu + 1] >= 0xD0:
+                            if veri[scan_sonu] == 0xFF and veri[scan_sonu + 1] != 0x00 and veri[scan_sonu + 1] >= 0xD0:
                                 break
                             scan_sonu += 1
                         
@@ -143,7 +143,6 @@ def jpeg_meta_verilerini_yok_et(dosya_yolu):
     except Exception as e:
         print(f"  ! Bir sorun oldu: {str(e)}")
         return alternatif_jpeg_temizleme(dosya_yolu)  # Hata olunca B planı
-
 def alternatif_jpeg_temizleme(dosya_yolu):
     """B Planı: JPEG'leri daha az agresif temizleme (ilki bazen bozabiliyor)"""
     try:
@@ -340,7 +339,7 @@ def mp3_meta_verilerini_yok_et(dosya_yolu):
         pozisyon = 0
         
         # ID3v2 var mı?
-        if len(veri) > 10 ve veri[0:3] == b'ID3':
+        if len(veri) > 10 and veri[0:3] == b'ID3':
             # Boyutunu hesapla (biraz karışık)
             etiket_boyutu = ((veri[6] & 0x7F) << 21) | \
                            ((veri[7] & 0x7F) << 14) | \
@@ -355,7 +354,7 @@ def mp3_meta_verilerini_yok_et(dosya_yolu):
         temiz_veri.extend(veri[pozisyon:])
         
         # ID3v1 etiketi sonda olur (sabit 128 byte)
-        if len(temiz_veri) > 128 ve temiz_veri[-128:-125] == b'TAG':
+        if len(temiz_veri) > 128 and temiz_veri[-128:-125] == b'TAG':
             temiz_veri = temiz_veri[:-128]
         
         # Temizlenmiş dosyayı yaz
@@ -366,6 +365,7 @@ def mp3_meta_verilerini_yok_et(dosya_yolu):
     except Exception as e:
         print(f"  ! MP3 temizlerken sorun: {str(e)}")
         return False
+
 
 def meta_veri_kontrol_et(dosya_yolu):
     """Dosyada meta veri kalıntısı var mı diye bakıyor"""
@@ -410,11 +410,7 @@ def meta_veri_kontrol_et(dosya_yolu):
                 
                 pozisyon += len(kelime)
                 
-                # En fazla 5 örnek göster, çok uzun olmasın
-Elbette, işte devamı:
-
-```python
-        # En fazla 5 örnek göster, çok uzun olmasın
+                # En fazla 5 örnek göster, çok uzun olmasın        # En fazla 5 örnek göster, çok uzun olmasın
                 if len(bulunan_metalar) >= 5:
                     bulunan_metalar.append(f"  ... ve {toplam_meta - 5} başka meta veri ...")
                     break
