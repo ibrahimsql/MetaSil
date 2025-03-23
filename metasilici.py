@@ -410,7 +410,7 @@ def meta_veri_kontrol_et(dosya_yolu):
                 
                 pozisyon += len(kelime)
                 
-                # En fazla 5 örnek göster, çok uzun olmasın        # En fazla 5 örnek göster, çok uzun olmasın
+                # En fazla 5 örnek göster, çok uzun olmasın 
                 if len(bulunan_metalar) >= 5:
                     bulunan_metalar.append(f"  ... ve {toplam_meta - 5} başka meta veri ...")
                     break
