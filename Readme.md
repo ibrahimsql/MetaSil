@@ -48,13 +48,13 @@ MetaSil, telefonla çekilen fotoğraf, video ve ses dosyalarından tüm meta ver
 
 ```bash
 # Tek bir dosya için:
-python MetaSil.py /sdcard/DCIM/Camera/fotograf.jpg
+python metasilici.py /sdcard/DCIM/Camera/fotograf.jpg
 
 # Bir klasör için:
-python MetaSil.py /sdcard/DCIM/Camera/
+python metasilici.py /sdcard/DCIM/Camera/
 
 # Alt klasörler dahil bir klasör için:
-python MetaSil.py /sdcard/DCIM/ -r
+python metasilici.py /sdcard/DCIM/ -r
 ```
 
 ## Güvenlik İçin Öneriler
